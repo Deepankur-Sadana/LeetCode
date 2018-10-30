@@ -3,7 +3,7 @@ public class Sample {
 	
 	
 	public static void main(String[] args) {
-		int arr[] = new int[] {1,1,1,1,-1,-89,2,3,6};
+		int arr[] = new int[] {1,2,-3};
 		System.out.println(firstMissingPositiveNumber(arr));
 
 	}
@@ -20,6 +20,7 @@ public class Sample {
                 }
             }
         }
+        Utils.print(arr);
         for (int i = 0; i < len; i++)
             if (arr[i] != i + 1)
                 return i + 1;

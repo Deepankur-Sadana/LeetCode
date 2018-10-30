@@ -1,11 +1,8 @@
 
 public class LeetCodeApplication {
 
-	public static void main(String[] args) {
 
-	}
-
-	//#72 Edit Distance
+	// #72 Edit Distance
 	public int minDistance(String word1, String word2) {
 		int dp[][] = new int[word1.length() + 1][word2.length() + 1];
 
@@ -17,12 +14,12 @@ public class LeetCodeApplication {
 
 		for (int r = 1; r < dp.length; r++) {
 			for (int c = 1; c < dp[0].length; c++) {
-				if (word1.charAt(r-1) == word2.charAt(c-1))
+				if (word1.charAt(r - 1) == word2.charAt(c - 1))
 					dp[r][c] = dp[r - 1][c - 1];
 				else {
 					int min = Math.min(dp[r - 1][c - 1], dp[r][c - 1]);
 					min = Math.min(min, dp[r - 1][c]);
-					dp[r][c] = min +1;
+					dp[r][c] = min + 1;
 				}
 			}
 		}
