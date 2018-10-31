@@ -65,35 +65,19 @@ public class Sample {
 
 	//103	Binary Tree Zigzag Level Order Traversal    
 	public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-
 		BFS(root, 0);
-		boolean reverse = false;
-		for (List<Integer> list : this.list) {
-			if (reverse)
-				reverse(list);
-			reverse = !reverse;
-		}
 		return list;
 
 	}
 
-	void reverse(List<Integer> list) {
-		int len = list.size();
-		int i = 0;
-		while (i < len / 2) {
-			int temp = list.get(i);
-			list.set(i, list.get(len - 1 - i));
-			list.set(len - i - 1, temp);
-			++i;
-		}
-	}
+
 
 	void BFS(TreeNode root, int level) {
 		if (root == null)
 			return;
 		if (list.size() == level)
 			list.add(new ArrayList<>());
-		list.get(list.size() - 1).add(root.val);
+		list.get(level).add(root.val);
 		BFS(root.left, level + 1);
 		BFS(root.right, level + 1);
 	}
