@@ -1,5 +1,4 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Sample {
 
@@ -43,7 +42,7 @@ public class Sample {
 
 	// #11 container-with-most-water/
 	public int maxArea(int[] height) {
-		int i = 0, j = height.length -1;
+		int i = 0, j = height.length - 1;
 		int max = 0;
 		while (i < j) {
 			int diff = j - i;
@@ -60,6 +59,62 @@ public class Sample {
 			}
 		}
 		return max;
+	}
+
+	List<List<Integer>> list = new ArrayList<>();
+
+	//103	Binary Tree Zigzag Level Order Traversal    
+	public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+
+		BFS(root, 0);
+		boolean reverse = false;
+		for (List<Integer> list : this.list) {
+			if (reverse)
+				reverse(list);
+			reverse = !reverse;
+		}
+		return list;
+
+	}
+
+	void reverse(List<Integer> list) {
+		int len = list.size();
+		int i = 0;
+		while (i < len / 2) {
+			int temp = list.get(i);
+			list.set(i, list.get(len - 1 - i));
+			list.set(len - i - 1, temp);
+			++i;
+		}
+	}
+
+	void BFS(TreeNode root, int level) {
+		if (root == null)
+			return;
+		if (list.size() == level)
+			list.add(new ArrayList<>());
+		list.get(list.size() - 1).add(root.val);
+		BFS(root.left, level + 1);
+		BFS(root.right, level + 1);
+	}
+
+	public boolean buddyStrings(String A, String B) {
+		if (A.length() != B.length())
+			return false;
+		int arr[] = new int[A.length()];
+		char[] cA = A.toCharArray();
+		char[] cB = A.toCharArray();
+		ArrayList<Integer> list = new ArrayList<>();
+		for (int i = 0; i < A.length(); i++) {
+			arr[i] = cA[i] - cB[i];
+			if (arr[i] != 0)
+				list.add(arr[i]);
+
+		}
+		if (list.size() != 2)
+			return false;
+		return list.get(0) + list.get(1) == 0;
+
 	}
 
 }
