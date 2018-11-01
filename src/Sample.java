@@ -63,14 +63,12 @@ public class Sample {
 
 	List<List<Integer>> list = new ArrayList<>();
 
-	//103	Binary Tree Zigzag Level Order Traversal    
+	// 103 Binary Tree Zigzag Level Order Traversal
 	public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
 		BFS(root, 0);
 		return list;
 
 	}
-
-
 
 	void BFS(TreeNode root, int level) {
 		if (root == null)
@@ -98,6 +96,40 @@ public class Sample {
 		if (list.size() != 2)
 			return false;
 		return list.get(0) + list.get(1) == 0;
+
+	}
+
+	// 200 /number-of-islands/
+	boolean marked[][];
+
+	public int numIslands(char[][] grid) {
+		if(grid.length == 0) return 0;
+		marked = new boolean[grid.length][grid[0].length];
+		int count = 0;
+		for (int r = 0; r < grid.length; r++) {
+			for (int c = 0; c < grid[0].length; c++) {
+				if (grid[r][c] == '1' && !marked[r][c]) {
+					traverse(r, c, grid);
+					++count;
+				}
+			}
+		}
+
+		return count;
+	}
+
+	void traverse(int r, int c, char[][] grid) {
+		if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length)
+			return;
+
+		if (grid[r][c] == '0' || marked[r][c])
+			return;
+
+		marked[r][c] = true;
+		traverse(r + 1, c, grid);//r
+		traverse(r, c + 1, grid);//bottom
+		traverse(r - 1, c, grid);//l
+		traverse(r, c - 1, grid);//top
 
 	}
 
