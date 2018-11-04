@@ -69,5 +69,49 @@ public class Binary {
 		return s.length() - 1 - index;
 
 	}
+	
+
+	// #345  reverse-vowels-of-a-string/
+	public String reverseVowels(String s) {
+		int i = 0, j = s.length() - 1;
+		char[] arr = s.toCharArray();
+		while (i < j) {
+			while (!isVowel(arr[i]) && i < j) {
+				i++;
+
+			}
+			while (!isVowel(arr[j]) && i < j) {
+				j--;
+			}
+
+			if (i < j)
+				swap(arr, i++, j--);
+		}
+		return String.valueOf(arr);
+
+	}
+
+	private void swap(char[] arr, int i, int j) {
+		char temp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = temp;
+
+	}
+
+	boolean isVowel(char c) {
+		c = Character.toLowerCase(c);
+		switch (c) {
+		case 'a':
+		case 'e':
+		case 'i':
+		case 'o':
+		case 'u':
+			return true;
+
+		default:
+			return false;
+		}
+
+	}
 
 }
