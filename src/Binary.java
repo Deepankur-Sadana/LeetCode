@@ -55,4 +55,19 @@ public class Binary {
 		return res.reverse().toString();
 	}
 
+	// #58 length of last word
+	public int lengthOfLastWord(String s) {
+		s = s.trim();
+		int index = s.length() - 1;
+		char arr[] = s.toCharArray();
+		while (index >= 0 && arr[index] != ' ') {
+			--index;
+		}
+
+		if (index == 0)
+			return 0;
+		return s.length() - 1 - index;
+
+	}
+
 }
