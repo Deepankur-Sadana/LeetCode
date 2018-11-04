@@ -69,9 +69,8 @@ public class Binary {
 		return s.length() - 1 - index;
 
 	}
-	
 
-	// #345  reverse-vowels-of-a-string/
+	// #345 reverse-vowels-of-a-string/
 	public String reverseVowels(String s) {
 		int i = 0, j = s.length() - 1;
 		char[] arr = s.toCharArray();
@@ -112,6 +111,26 @@ public class Binary {
 			return false;
 		}
 
+	}
+
+	// #680 valid-palindrome
+	public boolean validPalindrome(String s) {
+		char arr[] = s.toCharArray();
+		return validPalindrome(arr, 0, arr.length - 1, 0);
+
+	}
+
+	public boolean validPalindrome(char[] arr, int i, int j, int count) {
+		if (count == 2)
+			return false;
+		while (i < j) {
+			if (arr[i] != arr[j]) {
+				return validPalindrome(arr, i + 1, j, count + 1) || validPalindrome(arr, i, j - 1, count + 1);
+			}
+			i++;
+			j--;
+		}
+		return true;
 	}
 
 }
