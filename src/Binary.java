@@ -2,7 +2,8 @@
 public class Binary {
 
 	public static void main(String[] args) {
-
+//		System.out.println(isPalindrome("OPO"));
+		Utils.print(count(40));
 	}
 
 	// 67 add-binary/
@@ -133,4 +134,107 @@ public class Binary {
 		return true;
 	}
 
+	// #125 valid-palindrome
+	public static boolean isPalindrome(String s) {
+		char[] arr = s.toCharArray();
+		int i = 0, j = arr.length - 1;
+
+		while (i < j) {
+			while (i < j && !Character.isAlphabetic(arr[i])) {
+				++i;
+			}
+			while (i < j && !Character.isAlphabetic(arr[j])) {
+				--j;
+			}
+			if (i < j && Character.toLowerCase(arr[i]) != Character.toLowerCase(arr[j]))
+				return false;
+			++i;
+			--j;
+
+		}
+		return true;
+	}
+
+	public int findSecondMinimumValue(TreeNode root) {
+
+		return sM == null ? -1 : sM;
+	}
+
+	Integer M, sM;
+
+	void search(TreeNode root) {
+		if (root == null)
+			return;
+		if (M == null && sM == null) {
+			M = root.val;
+		} else if (M != null && sM == null) {
+
+		} else if (root.val != sM && root.val != M) {
+
+		}
+		search(root.left);
+		search(root.right);
+	}
+
+	boolean equal(int p, Integer r) {
+		if (r == null)
+			return false;
+		return p == r;
+
+	}
+
+	boolean[][] mark;
+
+	public int maxAreaOfIsland(int[][] grid) {
+		if (grid.length == 0)
+			return 0;
+		mark = new boolean[grid.length][grid[0].length];
+
+	}
+
+	class NumArray {
+		int[] sums;
+
+		public NumArray(int[] nums) {
+			if (nums.length == 0)
+				return;
+			sums = new int[nums.length];
+			sums[0] = nums[0];
+
+			for (int i = 1; i < nums.length; i++)
+				sums[i] = sums[i - 1] + nums[i];
+
+		}
+
+		public int sumRange(int i, int j) {
+			if (j == 0)
+				return sums[j];
+			int pre = 0;
+			if (i > 0)
+				pre = sums[i - 1];
+			return sums[j] - pre;
+
+		}
+	}
+
+	// #494 target-sum/
+	public int findTargetSumWays(int[] nums, int S) {
+		traverse(nums, 0, S, 0, true);
+		traverse(nums, 0, S, 0, false);
+		return count;
+	}
+
+	int count;
+
+	void traverse(int[] nums, int running, int S, int index, boolean isPlus) {
+		if (index == nums.length) {
+			if (running == S)
+				++count;
+			return;
+		}
+
+		int nextRunner = isPlus ? running + nums[index] : running - nums[index];
+		traverse(nums, nextRunner, S, index + 1, false);
+		traverse(nums, nextRunner, S, index + 1, true);
+	}
 }
