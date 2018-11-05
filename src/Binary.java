@@ -155,32 +155,52 @@ public class Binary {
 		return true;
 	}
 
+	// #671 second minimum
 	public int findSecondMinimumValue(TreeNode root) {
-
-		return sM == null ? -1 : sM;
+		search(root);
+		return distintCount == 2 ? sMin : -1;
 	}
 
-	Integer M, sM;
+	int min, sMin, distintCount;
 
 	void search(TreeNode root) {
 		if (root == null)
 			return;
-		if (M == null && sM == null) {
-			M = root.val;
-		} else if (M != null && sM == null) {
 
-		} else if (root.val != sM && root.val != M) {
+		int val = root.val;
+		switch (distintCount) {
+		case 0:
+			min = val;
+			++distintCount;
+			break;
+		case 1:
+			if (min != val) {
+				overRide(val);
+				++distintCount;
+			}
 
+			break;
+		case 2:
+			if (sMin != val && min != val && val < sMin) {
+				overRide(val);
+			}
+
+			break;
+		default:
+			break;
 		}
 		search(root.left);
 		search(root.right);
 	}
 
-	boolean equal(int p, Integer r) {
-		if (r == null)
-			return false;
-		return p == r;
-
+	void overRide(int val) {
+			if (val < min) {
+				sMin = min;
+				min = val;
+			} else {
+				sMin = val;
+			}
+		
 	}
 
 	boolean[][] mark;
