@@ -23,53 +23,47 @@ public class GameOfLife {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int i = 1;
-		i = i<<1;
-		i=i|1;
-		System.out.println(i);
 
 	}
 
-	int[][] pre;
-
 	public void gameOfLife(int[][] board) {
-
-		pre = new int[board.length][board[0].length];
-		
-		for (int r = 0; r < pre.length; r++) {
-			for (int c = 0; c < pre[0].length; c++) {
+		for (int r = 0; r < board.length; r++) {
+			for (int c = 0; c < board[0].length; c++) {
 				int neighbour = getNeighbourOneSum(r, c, board);
-				boolean alive = board[r][c] == 1;
+				boolean alive = (board[r][c] & 1) == 1;
 				if (alive) {
 					switch (neighbour) {
 					case 0:
 					case 1:
-						pre[r][c] = 0;
+						save(false, r, c, board);
 						break;
 					case 2:
 					case 3:
-						pre[r][c] = 1;
+						save(true, r, c, board);
 						break;
 					default:
-						pre[r][c] = 0;
+						save(false, r, c, board);
 						break;
 					}
-
 				} else {
 					if (neighbour == 3)
-						pre[r][c] = 1;
+						save(true, r, c, board);
 				}
 
 			}
 		}
-		copy(board);
+
+		for (int r = 0; r < board.length; r++) {
+			for (int c = 0; c < board[0].length; c++) {
+				board[r][c] = board[r][c] >> 1;
+			}
+		}
 	}
-	
-	void copy(int[][]board){
-		for (int r = 0; r < pre.length; r++) {
-			for (int c = 0; c < pre[0].length; c++) {
-				board[r][c]=pre[r][c];
-			}}
+
+	void save(boolean one, int r, int c, int[][] matrix) {
+		int res = one ? 1 : 0;
+		res = res << 1;
+		matrix[r][c] = matrix[r][c] | res;
 	}
 
 	int[][] directions = new int[][] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 }, { -1, -1 }, { -1, 1 }, { 1, 1 },
@@ -82,10 +76,9 @@ public class GameOfLife {
 			int nc = c + dir[1];
 			if (nr < 0 || nr >= matrix.length || nc < 0 || nc >= matrix[0].length)
 				continue;
-			if (matrix[nr][nc] == 1)
+			if ((matrix[nr][nc] & 1) == 1)
 				++sum;
 		}
-
 		return sum;
 	}
 
