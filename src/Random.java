@@ -61,7 +61,7 @@ public class Random {
 	public int totalHammingDistance(int[] nums) {
 		int i = 32;
 		int sum = 0;
-		
+
 		while (i-- != 0) {
 			int ones = 0;
 			for (int j = 0; i < nums.length; j++) {
@@ -71,6 +71,33 @@ public class Random {
 			sum += ones * (nums.length - ones);
 		}
 		return sum;
+	}
+
+	// #917 reverse-only-letters
+	public String reverseOnlyLetters(String S) {
+		char arr[] = S.toCharArray();
+		int i = 0, j = arr.length - 1;
+		while (i < j) {
+			while (!isAlphabet(arr[i]) && i < j) {
+				++i;
+			}
+
+			while (!isAlphabet(arr[j]) && i < j) {
+				--j;
+			}
+			if (i < j) {
+				char temp = arr[j];
+				arr[j] = arr[i];
+				arr[i] = temp;
+			}
+			++i;
+			--j;
+		}
+		return String.valueOf(arr);
+	}
+
+	boolean isAlphabet(char c) {
+		return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';
 	}
 
 }
