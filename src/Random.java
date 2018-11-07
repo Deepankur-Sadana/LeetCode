@@ -46,4 +46,20 @@ public class Random {
 
 	}
 
+	// #461 Hamming Distance
+	public int hammingDistance(int x, int y) {
+		int sum = 0;
+		int res = 0;
+		while (x != 0 || y != 0) {
+			res = x & 1;
+			if (res != (y & 1)) {
+				++sum;
+			}
+			x = x >> 1;
+			y = y >> 1;
+
+		}
+		return sum;
+	}
+
 }
