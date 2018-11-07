@@ -57,4 +57,20 @@ public class Random {
 		return sum;
 	}
 
+	// #477 total-hamming-distance
+	public int totalHammingDistance(int[] nums) {
+		int i = 32;
+		int sum = 0;
+		
+		while (i-- != 0) {
+			int ones = 0;
+			for (int j = 0; i < nums.length; j++) {
+				ones += (nums[j] & 1) == 1 ? 1 : 0;
+				nums[j] = nums[j] >> 1;
+			}
+			sum += ones * (nums.length - ones);
+		}
+		return sum;
+	}
+
 }
