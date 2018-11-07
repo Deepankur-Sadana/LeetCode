@@ -100,4 +100,44 @@ public class Random {
 		return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';
 	}
 
+	boolean[][] used;
+
+	// #79 Word Search
+	public boolean exist(char[][] board, String word) {
+		used = new boolean[board.length][board[0].length];
+
+		for (int r = 0; r < board.length; r++) {
+			for (int c = 0; c < board[0].length; c++) {
+				if (exist(0, r, c, board, word)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	boolean exist(int index, int r, int c, char[][] board, String word) {
+
+		if (index == word.length())
+			return true;
+		if (r < 0 || r >= board.length || c < 0 || c >= board[0].length)
+			return false;
+		if (used[r][c])
+			return false;
+
+		if (board[r][c] == word.charAt(index)) {
+			used[r][c] = true;
+			boolean exist = false;
+			for (int[] dir : Utils.directions) {
+				exist = exist || exist(index + 1, r + dir[0], c + dir[1], board, word);
+				if (exist)
+					break;
+			}
+			used[r][c] = false;
+			return exist;
+		} else {
+			return false;
+		}
+	}
+
 }
