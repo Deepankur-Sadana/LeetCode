@@ -8,22 +8,22 @@ public class Random {
 		test();
 
 	}
-	
-	
+
 	// #128 longest-consecutive-sequence/
 	public int longestConsecutive(int[] nums) {
-		HashSet<Integer> set = new HashSet<>();
-		for (int n : nums)
-			set.add(n);
+		Arrays.sort(nums);
 		int max = 0;
-
-		for (int n : set) {
-			int copy = n ;
-			int len = 0;
-			while (set.contains(copy ++)) {
-				++len;
+		int i = 0;
+		while (i < nums.length) {
+			int curr = i;
+			int len = 1;
+			while (i < nums.length - 1 && (nums[i + 1] == nums[i] || nums[i + 1] == nums[i] + 1)) {
+				if (nums[i + 1] == nums[i] + 1)
+					++len;
+				++i;
 			}
 			max = Math.max(len, max);
+			++i;
 		}
 		return max;
 	}
