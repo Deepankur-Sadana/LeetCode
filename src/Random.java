@@ -1,11 +1,33 @@
 import java.util.ArrayList;
+import java.util.*;
 
 public class Random {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		test();
 
 	}
+	
+	
+	// #128 longest-consecutive-sequence/
+	public int longestConsecutive(int[] nums) {
+		HashSet<Integer> set = new HashSet<>();
+		for (int n : nums)
+			set.add(n);
+		int max = 0;
+
+		for (int n : set) {
+			int copy = n ;
+			int len = 0;
+			while (set.contains(copy ++)) {
+				++len;
+			}
+			max = Math.max(len, max);
+		}
+		return max;
+	}
+
 
 	// #500 keyboard-row/
 	public String[] findWords(String[] words) {
