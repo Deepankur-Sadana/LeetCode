@@ -9,6 +9,24 @@ public class Random {
 
 	}
 
+	// #804 unique-morse-code-words/
+	public int uniqueMorseRepresentations(String[] words) {
+		HashSet<String> set = new HashSet<>();
+		String[] map = new String[] { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-",
+				".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--",
+				"--.." };
+		StringBuilder sb = new StringBuilder();
+		for (String word : words) {
+			sb.delete(0, sb.length());
+			for (char c : word.toCharArray()) {
+				c = Character.toLowerCase(c);
+				sb.append(map[c - 'a']);
+			}
+			set.add(sb.toString());
+		}
+		return set.size();
+	}
+
 	// #128 longest-consecutive-sequence/
 	public int longestConsecutive(int[] nums) {
 		Arrays.sort(nums);
