@@ -4,9 +4,26 @@ import java.util.*;
 public class Random {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		test();
 
+	}
+
+	// #590 n-ary-tree-postorder-traversal/
+	public List<Integer> postorder(Node root) {
+		List<Integer> list = new ArrayList<>();
+		traverse(root, list);
+		return list;
+
+	}
+
+	void traverse(Node root, List<Integer> list) {
+		if (root == null)
+			return;
+		if (root.children != null) {
+			for (Node n : root.children) {
+				traverse(n, list);
+			}
+		}
+		list.add(root.val);
 	}
 
 	// #804 unique-morse-code-words/
