@@ -200,24 +200,20 @@ public class Random {
 
 	// #938 range-sum-of-bst/
 	public int rangeSumBST(TreeNode root, int L, int R) {
-		traverse(root);
-		int i = 0, sum = 0;
-		while (i < list.size()) {
-			if (list.get(i) >= L && list.get(i) <= R)
-				sum += list.get(i);
-			++i;
-		}
+		traverse(root, L, R);
 		return sum;
 	}
 
-	ArrayList<Integer> list = new ArrayList<>();
+	int sum = 0;
 
-	void traverse(TreeNode root) {
+	void traverse(TreeNode root, int L, int R) {
 		if (root == null)
 			return;
-		traverse(root.left);
-		list.add(root.val);
-		traverse(root.right);
+		traverse(root.left, L, R);
+		int val = root.val;
+		if (val >= L && val <= R)
+			sum += val;
+		traverse(root.right, L, R);
 
 	}
 
