@@ -197,4 +197,28 @@ public class Random {
 		}
 	}
 
+
+	// #938 range-sum-of-bst/
+	public int rangeSumBST(TreeNode root, int L, int R) {
+		traverse(root);
+		int i = 0, sum = 0;
+		while (i < list.size()) {
+			if (list.get(i) >= L && list.get(i) <= R)
+				sum += list.get(i);
+			++i;
+		}
+		return sum;
+	}
+
+	ArrayList<Integer> list = new ArrayList<>();
+
+	void traverse(TreeNode root) {
+		if (root == null)
+			return;
+		traverse(root.left);
+		list.add(root.val);
+		traverse(root.right);
+
+	}
+
 }
