@@ -217,4 +217,30 @@ public class Random {
 
 	}
 
+	int minLen = Integer.MAX_VALUE;
+	// #209  minimum-size-subarray-sum
+	public int minSubArrayLen(int k, int[] A) {
+
+		int len = A.length;
+		if (len == 0 || k <= 0)
+			return 0;
+		int sum = 0;
+		int l = 0, r = 0;
+
+		while (r < len) {
+			sum += A[r++];
+			while (sum >= k) {
+				checkLength(l, r);
+				sum -= A[l++];
+			}
+		}
+		return minLen == Integer.MAX_VALUE ? 0 : minLen;
+	}
+
+	void checkLength(int l, int r) {
+		if (minLen > r - l) {
+			minLen = r - l;
+		}
+	}
+
 }
