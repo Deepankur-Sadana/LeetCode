@@ -243,4 +243,72 @@ public class Random {
 		}
 	}
 
+	// Given a string S and a string T,
+	// find the minimum window in S which wil
+	// l contain all the characters in T in complexity O(n).
+	// #76 minimum-window-substring/
+
+	class CharFreq {
+		char c;
+		int freq;
+
+		CharFreq(char c, int freq) {
+			this.c = c;
+			this.freq = freq;
+		}
+	}
+
+	public String minWindow(String s, String t) {
+		int[] cntS = new int[256];
+		int[] cntT = new int[256];
+		int res[] = new int[] { 0, Integer.MAX_VALUE };
+		for (char c : t.toCharArray()) {
+			System.out.println(" c :" + c);
+			cntT[c]++;
+		}
+		ArrayList<CharFreq> list = new ArrayList<CharFreq>();
+		for (int i = 0; i < cntT.length; i++) {
+			if (cntT[i] > 0) {
+				list.add(new CharFreq((char) i, cntT[i]));
+				System.out.println(" c :" + (char) i + " f " + cntT[i]);
+			}
+		}
+
+		System.out.println(" size :" + list.size());
+		int l = 0, r = 0;
+		char[] arr = s.toCharArray();
+		while (r < arr.length) {
+			char c = arr[r++];
+			cntS[c]++;
+
+			while (containsAll(cntS, list)) {
+				System.out.println("l " + l + " r " + r);
+				if (res[1] - res[0] > r - l) {
+					res[0] = l;
+					res[1] = r;
+				}
+				char cI = arr[l++];
+				cntS[cI]--;
+			}
+		}
+
+		if (res[1] == Integer.MAX_VALUE && res[0] == 0)
+			return "";
+		return s.substring(res[0], res[1]);
+	}
+
+	boolean containsAll(int[] cntS, ArrayList<CharFreq> list) {
+		for (CharFreq cf : list) {
+			if (cntS[cf.c] < cf.freq)
+				return false;
+		}
+		return true;
+	}
+
+	public static void main(String[] args) {
+		Random r = new Random();
+		System.out.println(r.minWindow("ADOBECODEBANC", "ABC"));
+		System.out.println("ADOBECODEBANC".substring(8, 13));
+	}
+
 }
