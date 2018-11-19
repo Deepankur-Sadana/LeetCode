@@ -15,6 +15,18 @@ public class Random {
 
 	}
 
+	// #507. Perfect Number
+	public boolean checkPerfectNumber(int num) {
+		int sum = 0;
+		for (int i = 2; i <= Math.sqrt(num); i++) {
+			if (num % i == 0) {
+				sum += i;
+				sum += num / i;
+			}
+		}
+		return sum + 1 == num && num > 1;
+	}
+
 	void traverse(Node root, List<Integer> list) {
 		if (root == null)
 			return;
