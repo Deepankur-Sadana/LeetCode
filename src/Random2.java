@@ -4,25 +4,26 @@ public class Random2 {
 
 	// #49. Group Anagrams
 	public List<List<String>> groupAnagrams(String[] strs) {
-		HashMap<String, LinkedList<String>> map = new HashMap<>();
-		for (String str : strs) {
-			String h = getHash(str);
-			if (map.get(h) == null)
-				map.put(h, new LinkedList<String>());
-			map.get(h).add(str);
-		}
-		return new ArrayList<>(map.values());
-	}
+		int[] prime = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101,
+				103 };
+		HashMap<Integer, LinkedList<String>> map = new HashMap<>();
 
-	String getHash(String s) {
-		char[] chars = s.toCharArray();
-		int[] f = new int[26];
-		for (char c : chars) {
-			f[c - 'a']++;
+		List<List<String>> res = new ArrayList<>();
+		for (String str : strs) {
+			int mul = 1;
+			for (char c : str.toCharArray()) {
+				mul *= prime[c - 'a'];
+			}
+			if (map.get(mul) == null) {
+				LinkedList<String> list = new LinkedList<>();
+				list.add(str);
+				map.put(mul, list);
+				res.add(list);
+			} else {
+				map.get(mul).add(str);
+			}
 		}
-		String r = Arrays.toString(f);
-		System.out.println(" input " + s + " hash " + r);
-		return r;
+		return res;
 	}
 
 }
