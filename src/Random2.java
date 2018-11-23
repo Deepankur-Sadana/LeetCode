@@ -26,4 +26,34 @@ public class Random2 {
 		return res;
 	}
 
+	// #931. Minimum Falling Path Sum
+	public int minFallingPathSum(int[][] A) {
+		int dp[][] = new int[A.length][A[0].length];
+		for (int i = 0; i < dp[0].length; i++) {
+			dp[0][i] = A[0][i];
+		}
+
+		for (int r = 1; r < A.length; r++) {
+			for (int c = 0; c < A[0].length; c++) {
+				int mina = Integer.MAX_VALUE;
+				int minb = mina;
+				int minc = mina;
+
+				minb = dp[r - 1][c];
+
+				if (c > 0)
+					mina = dp[r - 1][c - 1];
+				if (c < A[0].length - 1)
+					minc = dp[r - 1][c + 1];
+
+				dp[r][c] = A[r][c]+Math.min(mina, Math.min(minb, minc));
+			}
+		}
+
+		int min = Integer.MAX_VALUE;
+		for (int i = 0; i < A[0].length; i++)
+			min = Math.min(min, dp[dp.length - 1][i]);
+		return min;
+	}
+
 }
