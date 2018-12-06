@@ -56,4 +56,32 @@ public class Random2 {
 		return min;
 	}
 
+	// #213. House Robber II
+	public int rob(int[] nums) {
+		int count = nums.length;
+		if (nums.length == 0)
+			return 0;
+		if (nums.length == 1)
+			return nums[0];
+		if (nums.length == 2)
+			return Math.max(nums[0], nums[1]);
+
+		return Math.max(rob(nums, 0, count - 1), rob(nums, 1, count));
+	}
+
+	// l inclusive ; h exclusive
+	int rob(int[] nums, int l, int h) {
+
+		int dp[] = new int[nums.length];
+		dp[l] = nums[l];
+		dp[l + 1] = Math.max(nums[l], nums[l + 1]);
+
+		for (int i = l + 2; i < h; i++) {
+			if (l == 0)
+				dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
+			else
+				dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
+		}
+		return dp[dp.length - (l == 0 ? 2 : 1)];
+	}
 }
