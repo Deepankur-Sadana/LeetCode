@@ -103,7 +103,8 @@ public class Sample {
 	boolean marked[][];
 
 	public int numIslands(char[][] grid) {
-		if(grid.length == 0) return 0;
+		if (grid.length == 0)
+			return 0;
 		marked = new boolean[grid.length][grid[0].length];
 		int count = 0;
 		for (int r = 0; r < grid.length; r++) {
@@ -126,11 +127,97 @@ public class Sample {
 			return;
 
 		marked[r][c] = true;
-		traverse(r + 1, c, grid);//r
-		traverse(r, c + 1, grid);//bottom
-		traverse(r - 1, c, grid);//l
-		traverse(r, c - 1, grid);//top
+		traverse(r + 1, c, grid);// r
+		traverse(r, c + 1, grid);// bottom
+		traverse(r - 1, c, grid);// l
+		traverse(r, c - 1, grid);// top
 
 	}
+
+	int[][] P, A;
+	int[][] directions = new int[][] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };;
+
+	// #417 pacific-atlantic-water-flow
+	public List<int[]> pacificAtlantic(int[][] matrix) {
+		P = new int[matrix.length][matrix[0].length];
+		A = new int[matrix.length][matrix[0].length];
+
+		dfs(matrix, A, 0, 0, 0);
+		dfs(matrix, P, 0, 0, 0);
+
+		List<int[]> list = new ArrayList<>();
+		for (int r = 0; r < matrix.length; r++) {
+			for (int c = 0; c < matrix[0].length; c++) {
+				if (P[r][c] == 1 && A[r][c] == 1)
+					list.add(new int[] { r, c });
+			}
+		}
+		return list;
+	}
+
+	private void dfs(int[][] matrix, int[][] ocean, int r, int c, int incomingDepth) {
+		if (r < 0 || r >= matrix.length || c < 0 || c >= matrix[0].length)
+			return;
+		if (ocean[r][c] != 0)
+			return;
+
+		if (matrix[r][c] >= incomingDepth)
+			ocean[r][c] = 1;
+		else
+			ocean[r][c] = -1;
+
+		for (int[] direction : directions) {
+			dfs(matrix, ocean, r + direction[0], c + direction[0], matrix[r][c]);
+		}
+	}
+
+	// #55 Jump game
+	public boolean canJump(int[] nums) {
+		int index = 0;
+
+		while (index < nums.length && nums[index] > 0) {
+			index = greedy(index, nums);
+		}
+		return index == nums.length - 1;
+	}
+
+	int greedy(int start, int[] nums) {
+
+		int potential = nums[start];
+		int best = start + 1;
+		for (int i = start + 1; i < (start + potential) && i < nums.length; i++) {
+			if (nums[best] - (best - start) < nums[i] - (i - start)) {
+				best = i;
+			}
+		}
+		return best;
+	}
+
+	public int[] plusOne(int[] digits) {
+		Stack<Integer> stack = new Stack<>();
+
+		boolean carry = true;// intial true for first push
+		for (int i = digits.length - 1; i >= 0; i--) {
+			int num = digits[i];
+			if (carry)
+				num++;
+			carry = num >= 10;
+			if (carry) {
+				num = num % 10;
+			}
+			stack.push(num);
+		}
+		if (carry)
+			stack.push(1);
+
+		int[] arr = new int[stack.size()];
+		int i = 0;
+		while (!stack.isEmpty()) {
+			arr[i++] = stack.pop();
+		}
+		return arr;
+	}
+
+
 
 }

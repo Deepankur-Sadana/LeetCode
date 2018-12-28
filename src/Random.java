@@ -3,10 +3,6 @@ import java.util.*;
 
 public class Random {
 
-	public static void main(String[] args) {
-
-	}
-
 	// #590 n-ary-tree-postorder-traversal/
 	public List<Integer> postorder(Node root) {
 		List<Integer> list = new ArrayList<>();
@@ -36,6 +32,26 @@ public class Random {
 			}
 		}
 		list.add(root.val);
+	}
+
+	TreeNode root;
+
+	// #108 convert-sorted-array-to-binary-search-tree/
+	TreeNode sortedArrayToBST(int[] nums) {
+		if (nums.length == 0)
+			return root;
+
+		return root;
+	}
+
+	void traverse(TreeNode root, int[] nums, int s, int e) {
+		if (s > e)
+			return;
+		if (s == e) {
+			root.left = new TreeNode(nums[s]);
+			return;
+		}
+		traverse()
 	}
 
 	// #804 unique-morse-code-words/
@@ -74,7 +90,6 @@ public class Random {
 		}
 		return max;
 	}
-
 
 	// #500 keyboard-row/
 	public String[] findWords(String[] words) {
@@ -209,6 +224,37 @@ public class Random {
 		}
 	}
 
+	public int findMinMoves(int[] machines) {
+		int load = 0;
+
+		for (int n : machines)
+			load += n;
+
+		if (load % machines.length != 0)
+			return -1;
+		int avg = load / machines.length;
+
+		int[] req = new int[machines.length];
+		for (int i = 0; i < machines.length; i++) {
+			req[i] = avg - machines[i];
+		}
+
+		int maxOffLoad = 0;
+		int maxDistribution = 0;
+
+		for (int i = 0; i < machines.length; i++) {
+			maxOffLoad = Math.max(Math.abs(maxOffLoad), Math.abs(req[i]));
+		}
+		for (int i = 1; i < req.length; i++) {
+			req[i] = req[i] + req[i - 1];
+		}
+
+		for (int i = 1; i < req.length; i++) {
+			maxDistribution = Math.max(maxDistribution, Math.abs(req[i]));
+		}
+
+		return Math.max(maxOffLoad, maxDistribution);
+	}
 
 	// #938 range-sum-of-bst/
 	public int rangeSumBST(TreeNode root, int L, int R) {
@@ -230,7 +276,8 @@ public class Random {
 	}
 
 	int minLen = Integer.MAX_VALUE;
-	// #209  minimum-size-subarray-sum
+
+	// #209 minimum-size-subarray-sum
 	public int minSubArrayLen(int k, int[] A) {
 
 		int len = A.length;
@@ -293,7 +340,7 @@ public class Random {
 			char c = arr[r++];
 			cntS[c]++;
 
-			while (containsAll(cntS, list)) {
+			while (cntS[arr[l]] > 0) {
 				System.out.println("l " + l + " r " + r);
 				if (res[1] - res[0] > r - l) {
 					res[0] = l;
@@ -321,6 +368,33 @@ public class Random {
 		Random r = new Random();
 		System.out.println(r.minWindow("ADOBECODEBANC", "ABC"));
 		System.out.println("ADOBECODEBANC".substring(8, 13));
+	}
+
+	int minLength = Integer.MAX_VALUE;
+
+	// #209 minimum-size-subarray-sum
+	public int shortestSubarray(int[] A, int k) {
+
+		int len = A.length;
+		if (len == 0 || k <= 0)
+			return 0;
+		int sum = 0;
+		int l = 0, r = 0;
+
+		while (r < len) {
+			sum += A[r++];
+			while (sum >= k) {
+				checkTheLength(l, r);
+				sum -= A[l++];
+			}
+		}
+		return minLength == Integer.MAX_VALUE ? 0 : minLength;
+	}
+
+	void checkTheLength(int l, int r) {
+		if (minLength > r - l) {
+			minLength = r - l;
+		}
 	}
 
 }

@@ -46,7 +46,7 @@ public class Random2 {
 				if (c < A[0].length - 1)
 					minc = dp[r - 1][c + 1];
 
-				dp[r][c] = A[r][c]+Math.min(mina, Math.min(minb, minc));
+				dp[r][c] = A[r][c] + Math.min(mina, Math.min(minb, minc));
 			}
 		}
 
@@ -54,6 +54,113 @@ public class Random2 {
 		for (int i = 0; i < A[0].length; i++)
 			min = Math.min(min, dp[dp.length - 1][i]);
 		return min;
+	}
+
+	// #773. Sliding Puzzle
+	public static int[][] directions = new int[][] { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
+	private Queue<String> q = new LinkedList<>();
+
+	public int slidingPuzzle(int[][] board) {
+		HashSet<String> seen = new HashSet<>(); // used to avoid duplicates
+		final String target = "123450";
+		int moves = 0;
+		String start = getStringRepresentation(board);
+		if (start.equals(target))
+			return 0;
+		q.add(start);
+		while (!q.isEmpty()) {
+			String poll = q.poll();
+			if (poll.equals(target))
+				return moves;
+			moves++;
+			List<String> list = getPossibleStates(poll, board);
+			for (String s : list) {
+				boolean insert = seen.add(s);
+				if (!insert)
+					continue;
+				if (s.equals(target))
+					return moves;
+				q.add(s);
+			}
+			moves++;
+		}
+		return moves;
+	}
+
+	List<String> getPossibleStates(String state, int[][] board) {
+		int[][] arr = new int[board.length][board[0].length];
+		int index = 0;
+		int r0 = 0, c0 = 0;
+		for (int r = 0; r < arr.length; r++) {
+			for (int c = 0; c < arr[0].length; c++) {
+				arr[r][c] = state.toCharArray()[index++];
+				if (arr[r][c] == 0) {
+					r0 = r;
+					c0 = c;
+				}
+			}
+		}
+		ArrayList<int[]> pointList = new ArrayList<int[]>();
+
+		for (int[] dir : directions) {
+			int r = r0 + dir[0];
+			int c = c0 + dir[1];
+			if (r < 0 || r >= board.length || c < 0 || c >= board[0].length)
+				continue;
+			pointList.add(new int[] { r, c });
+		}
+
+		ArrayList<String> nextMove = new ArrayList<>();
+		for (int[] point : pointList) {
+			swap(arr, new int[] { r0, c0 }, point);
+			nextMove.add(getStringRepresentation(arr));
+			swap(arr, new int[] { r0, c0 }, point);
+		}
+		return nextMove;
+	}
+
+	void swap(int arr[][], int[] pointA, int[] pointB) {
+		int temp = arr[pointA[0]][pointA[1]];
+		arr[pointA[0]][pointA[1]] = arr[pointB[0]][pointB[1]];
+		arr[pointB[0]][pointB[1]] = temp;
+	}
+
+	String getStringRepresentation(int[][] arr) {
+		StringBuilder sb = new StringBuilder();
+		for (int r = 0; r < arr.length; r++) {
+			for (int c = 0; c < arr[0].length; c++) {
+				sb.append(arr[r][c]);
+			}
+		}
+		return sb.toString();
+	}
+
+	public static void main(String[] s) {
+		int sum = new Random2().addAmount("Ciggi 150\n" + 
+				"Auto 150\n" + 
+				"Biryani 100\n" + 
+				"Showarma kebab 400\n" + 
+				"230 food bus\n" + 
+				"1100 booze cab\n" + 
+				"500 avaneesh token cash\n" + 
+				"250 pizza 1st day\n" + 
+				"200 1st day ciggi\n" + 
+				"470 auto\n" + 
+				"585 beer \n" + 
+				"Food biryani189\n" + 
+				"Cab 430\n" + 
+				"1000 drinks\n" + 
+				"300 food\n" + 
+				"160 ciggi\n" + 
+				"1213 sky high\n" + 
+				"120 ciggi\n" + 
+				"470 cab day 3\n" + 
+				"320 cab day 3\n" + 
+				"100 tickets museums\n" + 
+				"200 pondi food.\n" + 
+				"662 harshit ola");
+		System.out.println(sum);
+		
 	}
 
 	// #213. House Robber II
@@ -84,4 +191,38 @@ public class Random2 {
 		}
 		return dp[dp.length - (l == 0 ? 2 : 1)];
 	}
+
+	// #729 My Calendar I
+	public boolean book(int start, int end) {
+		TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+//    	Long key = 42l;
+		Map.Entry<Integer, Integer> low = map.floorEntry(start);
+		Map.Entry<Integer, Integer> high = map.ceilingEntry(end);
+		Object res = null;
+		if (low != null && high != null) {
+			res = Math.abs(key - low.getKey()) < Math.abs(key - high.getKey()) ? low.getValue() : high.getValue();
+		} else if (low != null || high != null) {
+			res = low != null ? low.getValue() : high.getValue();
+		}
+		return false;
+	}
+
+	int addAmount(String s) {
+		char arr[] = s.toCharArray();
+		int sum = 0;
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < arr.length; i++) {
+			if (Character.isDigit(arr[i])) {
+				sb.append(arr[i]);
+			} else {
+				if (sb.length() != 0) {
+					int c = Integer.parseInt(sb.toString());
+					sb.setLength(0);
+					sum += c;
+				}
+			}
+		}
+		return sum;
+	}
+
 }

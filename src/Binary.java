@@ -194,13 +194,23 @@ public class Binary {
 	}
 
 	void overRide(int val) {
-			if (val < min) {
-				sMin = min;
-				min = val;
-			} else {
-				sMin = val;
-			}
-		
+		if (val < min) {
+			sMin = min;
+			min = val;
+		} else {
+			sMin = val;
+		}
+
+	}
+
+//	[-2,1]
+	// #58 maximum-subarray
+	public int maxSubArray(int[] nums) {
+		int i = 0;
+		while (i != nums.length) {
+
+		}
+		return max;
 	}
 
 	boolean[][] mark;
@@ -257,4 +267,23 @@ public class Binary {
 		traverse(nums, nextRunner, S, index + 1, false);
 		traverse(nums, nextRunner, S, index + 1, true);
 	}
+
+//	Given an array with n integers, your task is to check if it could become non-decreasing by modifying at most 1 element.
+//
+//	We define an array is non-decreasing if array[i] <= array[i + 1] holds for every i (1 <= i < n).
+
+	public boolean checkPossibility(int[] nums) {
+		if (nums.length <= 2)
+			return true;
+		int count = 0;
+		int pre = nums[0];
+		for (int i = 1; i < nums.length; i++) {
+			if (nums[i - 1] > pre)
+				++count;
+			else
+				pre = nums[i];
+		}
+		return count < 2;
+	}
+
 }

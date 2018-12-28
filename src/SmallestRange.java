@@ -50,4 +50,24 @@ public class SmallestRange {
 		return res;
 	}
 
+	List<List<Integer>> list = new ArrayList<>();
+
+	public List<Double> averageOfLevels(TreeNode root) {
+		traverse(root,0);
+		List<Double> res = new ArrayList<>();
+		return res;
+	}
+	
+	
+	void traverse(TreeNode root,int level) {
+		if(root == null )return;
+		traverse(root.left,level+1);
+		if(root)
+		traverse(root.right,level+1);
+	}
+	
+	
+	
+	
+
 }
